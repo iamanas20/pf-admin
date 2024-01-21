@@ -1,15 +1,6 @@
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 
-// ** Icons Imports
-import Poll from 'mdi-material-ui/Poll'
-import CurrencyUsd from 'mdi-material-ui/CurrencyUsd'
-import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
-import BriefcaseVariantOutline from 'mdi-material-ui/BriefcaseVariantOutline'
-
-// ** Custom Components Imports
-import CardStatisticsVerticalComponent from 'src/@core/components/card-statistics/card-stats-vertical'
-
 // ** Styled Component Import
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 
@@ -28,7 +19,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (window?.localStorage.getItem('auth') === 'true') {
-      setIsAuth(true);
+      setIsAuth(true)
     }
 
     Axios.get('/dashboard/admin/stats').then(res => {
@@ -43,8 +34,6 @@ const Dashboard = () => {
           e.preventDefault()
           if (email === 'admin' && password === 'Password1!') {
             setIsAuth(true)
-            // save in local storage
-
             window?.localStorage.setItem('auth', 'true')
           }
         }}
