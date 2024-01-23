@@ -9,6 +9,7 @@ import Table from 'src/views/dashboard/Table'
 import StatisticsCard from 'src/views/dashboard/StatisticsCard'
 import React, { useEffect } from 'react'
 import Axios from 'src/api'
+import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 
 const Dashboard = () => {
   const [stats, setData] = React.useState<any>()
@@ -51,9 +52,9 @@ const Dashboard = () => {
         <Grid item xs={12} md={12}>
           <StatisticsCard data={stats} />
         </Grid>
-        {/* <Grid item xs={12}>
+        <Grid item xs={12}>
           <WeeklyOverview data={stats} />
-        </Grid> */}
+        </Grid>
         {/* <Grid item xs={12} md={6} lg={4}>
           <TotalEarning data={stats} />
         </Grid> */}

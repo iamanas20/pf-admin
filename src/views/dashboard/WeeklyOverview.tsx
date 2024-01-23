@@ -18,7 +18,6 @@ import { ApexOptions } from 'apexcharts'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 const WeeklyOverview = ({ data }: any) => {
-
   const theme = useTheme()
 
   const options: ApexOptions = {
@@ -37,7 +36,7 @@ const WeeklyOverview = ({ data }: any) => {
     },
     stroke: {
       width: 2,
-      colors: [theme.palette.background.paper]
+      colors: [theme.palette.primary.main]
     },
     legend: { show: false },
     grid: {
@@ -51,12 +50,12 @@ const WeeklyOverview = ({ data }: any) => {
     },
     dataLabels: { enabled: false },
     colors: [
-      theme.palette.background.default,
-      theme.palette.background.default,
-      theme.palette.background.default,
       theme.palette.primary.main,
-      theme.palette.background.default,
-      theme.palette.background.default
+      theme.palette.primary.main,
+      theme.palette.primary.main,
+      theme.palette.primary.main,
+      theme.palette.primary.main,
+      theme.palette.primary.main
     ],
     states: {
       hover: {
@@ -67,9 +66,9 @@ const WeeklyOverview = ({ data }: any) => {
       }
     },
     xaxis: {
-      categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      categories: ['Signed up users', 'Whom Created products', 'Whom Got sales'],
       tickPlacement: 'on',
-      labels: { show: false },
+      labels: { show: true },
       axisTicks: { show: false },
       axisBorder: { show: false }
     },
@@ -78,7 +77,7 @@ const WeeklyOverview = ({ data }: any) => {
       tickAmount: 4,
       labels: {
         offsetX: -17,
-        formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}k`
+        formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}`
       }
     }
   }
@@ -86,7 +85,7 @@ const WeeklyOverview = ({ data }: any) => {
   return (
     <Card>
       <CardHeader
-        title='Weekly Overview'
+        title='Main conversion funnel'
         titleTypographyProps={{
           sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' }
         }}
@@ -96,8 +95,21 @@ const WeeklyOverview = ({ data }: any) => {
           </IconButton>
         }
       />
-      <CardContent sx={{ '& .apexcharts-xcrosshairs.apexcharts-active': { opacity: 0 } }}>
-        <ReactApexcharts type='bar' height={205} options={options} series={[{ data: [37, 57, 45, 75, 57, 40, 65] }]} />
+      <CardContent>
+        <ReactApexcharts
+          type='bar'
+          height={205}
+          options={options}
+          series={[
+            {
+              data: [
+                data?.usersData?.length,
+                data?.usersData?.filter((u: any) => u.createdFirstProduct).length,
+                data?.usersData?.filter((u: any) => u.gotFirstSale).length
+              ]
+            }
+          ]}
+        />
       </CardContent>
     </Card>
   )
