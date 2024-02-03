@@ -1,3 +1,5 @@
+'use client'
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -18,14 +20,6 @@ interface StatusObj {
   [key: string]: {
     color: ThemeColor
   }
-}
-
-const statusObj: StatusObj = {
-  applied: { color: 'info' },
-  rejected: { color: 'error' },
-  current: { color: 'primary' },
-  resigned: { color: 'warning' },
-  professional: { color: 'success' }
 }
 
 const DashboardTable = ({ data }: any) => {
@@ -53,11 +47,12 @@ const DashboardTable = ({ data }: any) => {
               <TableCell>Sales</TableCell>
               <TableCell>Stripe account</TableCell>
               <TableCell>PayPal merchant</TableCell>
+              <TableCell>Referrer</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data?.usersData?.map((user: any) => {
-              console.log(user.connectedStripeAccountId)
+              const referral = user?.referral ?? ''
               const products = data?.productsData?.filter((product: any) => product.userId === user.userId) || []
               const sales = data?.salesData?.filter((sale: any) => sale.userId === user.userId) || []
               return (
@@ -84,6 +79,8 @@ const DashboardTable = ({ data }: any) => {
                   <TableCell>{sales.length}</TableCell>
                   <TableCell>{user.stripeConnectedAccountId}</TableCell>
                   <TableCell>{user.merchantIdInPayPal}</TableCell>
+                  <TableCell>{referral}</TableCell>
+                  {/* <TableCell>{user?.referral || ''}</TableCell> */}
                   {/* <TableCell>{row.salary}</TableCell>
                 <TableCell>{row.age}</TableCell>
                 <TableCell>
