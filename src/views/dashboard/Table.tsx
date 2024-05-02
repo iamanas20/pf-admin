@@ -3,7 +3,6 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Chip from '@mui/material/Chip'
 import Table from '@mui/material/Table'
 import TableRow from '@mui/material/TableRow'
 import TableHead from '@mui/material/TableHead'
@@ -13,17 +12,18 @@ import Typography from '@mui/material/Typography'
 import TableContainer from '@mui/material/TableContainer'
 
 // ** Types Imports
-import { ThemeColor } from 'src/@core/layouts/types'
 import { CardHeader } from '@mui/material'
-
-interface StatusObj {
-  [key: string]: {
-    color: ThemeColor
-  }
-}
+import { useEffect, useState } from 'react'
 
 const DashboardTable = ({ data }: any) => {
   console.log(data)
+  const [countries, setCountries] = useState<any[]>([])
+  useEffect(() => {
+    import('../../countries.json').then(data => {
+      setCountries(data.default as any)
+    })
+  }, [])
+
   return (
     <Card>
       <CardHeader
@@ -40,6 +40,8 @@ const DashboardTable = ({ data }: any) => {
         <Table sx={{ minWidth: 800 }} aria-label='table in dashboard'>
           <TableHead>
             <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Subdomain</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Created at</TableCell>
@@ -47,17 +49,22 @@ const DashboardTable = ({ data }: any) => {
               <TableCell>Sales</TableCell>
               <TableCell>Stripe account</TableCell>
               <TableCell>PayPal merchant</TableCell>
-              <TableCell>Referrer</TableCell>
+              <TableCell>Hear about us</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data?.usersData?.map((user: any) => {
-              const referral = user?.referral ?? ''
               const products = data?.productsData?.filter((product: any) => product.userId === user.userId) || []
               const sales = data?.salesData?.filter((sale: any) => sale.userId === user.userId) || []
               return (
                 <TableRow hover key={user._id} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
-                  <TableCell sx={{ py: theme => `${theme.spacing(0.5)} !important` }}>
+                  <TableCell>{user.userId}</TableCell>
+                  <TableCell>
+                    <a href={`https://${user.subdomain}.pocketsflow.com`} target='_blank'>
+                      {user.subdomain}
+                    </a>
+                  </TableCell>
+                  <TableCell sx={{ py: theme => `${theme.spacing(0.5)} !important` }} width={'300px'}>
                     <Box display='flex' alignItems='center' gap={3}>
                       <img
                         src={user.picture}
@@ -68,8 +75,15 @@ const DashboardTable = ({ data }: any) => {
                           borderRadius: '50%'
                         }}
                       />
-                      <Typography variant='body2' className='font-weight-bold ms-50'>
-                        {user.name}
+                      <Typography variant='body2' className='font-weight-bold ms-50' style={{ whiteSpace: 'nowrap' }}>
+                        {user.firstName} {user.lastName}
+                      </Typography>
+                      <Typography
+                        variant='body2'
+                        className='font-weight-bold ms-50'
+                        title={countries[user.country]?.name}
+                      >
+                        {user.country} {countries[user.country]?.emoji}
                       </Typography>
                     </Box>
                   </TableCell>
@@ -77,9 +91,16 @@ const DashboardTable = ({ data }: any) => {
                   <TableCell>{user.createdAt}</TableCell>
                   <TableCell>{products.length}</TableCell>
                   <TableCell>{sales.length}</TableCell>
-                  <TableCell>{user.stripeConnectedAccountId}</TableCell>
+                  <TableCell>
+                    <a
+                      href={`https://dashboard.stripe.com/connect/accounts/${user.stripeConnectedAccountId}`}
+                      target='_blank'
+                    >
+                      {user.stripeConnectedAccountId}
+                    </a>
+                  </TableCell>
                   <TableCell>{user.merchantIdInPayPal}</TableCell>
-                  <TableCell>{referral}</TableCell>
+                  <TableCell>{user.hearAboutUs}</TableCell>
                   {/* <TableCell>{user?.referral || ''}</TableCell> */}
                   {/* <TableCell>{row.salary}</TableCell>
                 <TableCell>{row.age}</TableCell>
