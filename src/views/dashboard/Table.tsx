@@ -16,7 +16,6 @@ import { CardHeader } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 const DashboardTable = ({ data }: any) => {
-  console.log(data)
   const [countries, setCountries] = useState<any[]>([])
   useEffect(() => {
     import('../../countries.json').then(data => {
