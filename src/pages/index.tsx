@@ -23,13 +23,9 @@ const Dashboard = () => {
   const [password, setPassword] = React.useState('')
 
   const [value, setValue] = React.useState('1')
-  const [value2, setValue2] = React.useState('1')
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
-  }
-  const handleChange2 = (event: React.SyntheticEvent, newValue: string) => {
-    setValue2(newValue)
   }
 
   useEffect(() => {
